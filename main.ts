@@ -19,6 +19,7 @@ function Temperatur () {
     while (true) {
         I2C_LCD1602.ShowString("Temperatur", 0, 0)
         I2C_LCD1602.ShowNumber(input.temperature(), 12, 0)
+        I2C_LCD1602.ShowString("°C", 14, 0)
     }
 }
 let strip: neopixel.Strip = null
@@ -51,7 +52,6 @@ basic.showLeds(`
     . . . . .
     `)
 basic.pause(100)
-music.playMelody("C5 A C5 G C5 F B C5 ", 111)
 strip.showRainbow(1, 360)
 strip1.showRainbow(1, 360)
 basic.pause(2000)
