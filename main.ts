@@ -25,9 +25,7 @@ function Temperatur () {
 let Feuer = 0
 let strip: neopixel.Strip = null
 I2C_LCD1602.LcdInit(39)
-I2C_LCD1602.ShowString("Z()ZN&876ztbzzghzuhizuhzthhtut6", 0, 0)
-basic.pause(200)
-I2C_LCD1602.clear()
+I2C_LCD1602.on()
 I2C_LCD1602.ShowString("Starting", 1, 0)
 basic.pause(500)
 I2C_LCD1602.clear()
@@ -45,19 +43,10 @@ basic.showLeds(`
     # . # # #
     `)
 basic.pause(2000)
-basic.showLeds(`
-    . # . # .
-    . . # . .
-    # . . . #
-    . # # # .
-    . . . . .
-    `)
 basic.pause(100)
 strip.showRainbow(1, 360)
 strip1.showRainbow(1, 360)
 basic.pause(2000)
-I2C_LCD1602.clear()
-basic.pause(200)
 Temperatur()
 basic.forever(function () {
     strip1.rotate(1)
@@ -69,13 +58,18 @@ basic.forever(function () {
     strip.show()
 })
 basic.forever(function () {
-    Feuer = pins.analogReadPin(AnalogPin.P0)
-    if (true) {
+    Feuer = pins.digitalReadPin(DigitalPin.P3)
+    if (Feuer == 4) {
         strip1.showColor(neopixel.colors(NeoPixelColors.Red))
         strip.showColor(neopixel.colors(NeoPixelColors.Red))
         I2C_LCD1602.clear()
-        I2C_LCD1602.ShowString("Feuer!", 4, 0)
-    } else if (Feuer > 100) {
+        I2C_LCD1602.ShowString("Feuer", 0, 0)
+    } else {
         Temperatur()
     }
+})
+basic.forever(function () {
+    I2C_LCD1602.clear()
+    basic.pause(100)
+    I2C_LCD1602.ShowNumber(pins.digitalReadPin(DigitalPin.P3), 2, 0)
 })
